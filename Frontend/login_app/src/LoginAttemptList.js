@@ -6,7 +6,7 @@ const LoginAttemptList = (props) => (
 	 	<p>Recent activity</p>
 	  	<input type="input" placeholder="Filter..." />
 		<ul className="Attempt-List">
-		{props.attempts.map((attempt, index) =><li key={index}>{attempt}</li>)}
+		    {props.attempts.map((attempt, index) =><li key={index}>{attempt}</li>)}
 		</ul>
 	</div>
 );
