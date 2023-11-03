@@ -21,36 +21,33 @@ namespace DeveloperSample.ClassRefactoring
     {
         public SwallowType Type { get; }
         public SwallowLoad Load { get; private set; }
+        private int airspeedVelocity = 22;
 
         public Swallow(SwallowType swallowType)
         {
             Type = swallowType;
+            Load = SwallowLoad.None;
+            if (swallowType == SwallowType.European)
+                airspeedVelocity = 20;
         }
 
         public void ApplyLoad(SwallowLoad load)
         {
+            updateAirspeedVelocity(Load, load);
             Load = load;
         }
 
-        public double GetAirspeedVelocity()
+        private void updateAirspeedVelocity(SwallowLoad oldLoad, SwallowLoad newLoad)
         {
-            if (Type == SwallowType.African && Load == SwallowLoad.None)
-            {
-                return 22;
-            }
-            if (Type == SwallowType.African && Load == SwallowLoad.Coconut)
-            {
-                return 18;
-            }
-            if (Type == SwallowType.European && Load == SwallowLoad.None)
-            {
-                return 20;
-            }
-            if (Type == SwallowType.European && Load == SwallowLoad.Coconut)
-            {
-                return 16;
-            }
-            throw new InvalidOperationException();
+            if (oldLoad == SwallowLoad.None && newLoad == SwallowLoad.Coconut)
+                airspeedVelocity = airspeedVelocity - 4;
+            else if (oldLoad == SwallowLoad.Coconut && newLoad == SwallowLoad.None)
+                airspeedVelocity = airspeedVelocity + 4;
+        }
+
+        public int GetAirspeedVelocity()
+        {
+            return airspeedVelocity;
         }
     }
 }
