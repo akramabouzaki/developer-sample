@@ -8,7 +8,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <LoginForm onSubmit={({ login, password }) => console.log({ login, password })} />
+      <LoginForm onSubmit={({ login, password }) => setLoginAttempts(loginAttempts.concat([login + " : " + password]))}/>
       <LoginAttemptList attempts={loginAttempts} />
     </div>
   );
