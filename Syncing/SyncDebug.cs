@@ -9,6 +9,7 @@ namespace DeveloperSample.Syncing
 {
     public class SyncDebug
     {
+        private readonly object ctLock = new object();
 
         public List<string> InitializeList(IEnumerable<string> items)
         {
@@ -33,9 +34,11 @@ namespace DeveloperSample.Syncing
                 {
                     while (ct < (itemsToInitialize.Count - 1))
                     {
-                        Interlocked.Increment(ref ct);
-                        if (ct < itemsToInitialize.Count)
-                            concurrentDictionary.AddOrUpdate(itemsToInitialize[ct], getItem, (_, s) => s);
+                        lock (ctLock)
+                        {
+                            if (Interlocked.Increment(ref ct) < itemsToInitialize.Count)
+                                concurrentDictionary.AddOrUpdate(itemsToInitialize[ct], getItem, (_, s) => s);
+                        }
                     }
                 }))
                 .ToList();
