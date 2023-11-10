@@ -1,0 +1,1 @@
+# developer-sample code I solved for a skill test which showcases algorithm & coding skills as well as proficiency in c# and React JS.
