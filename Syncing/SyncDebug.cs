@@ -9,34 +9,36 @@ namespace DeveloperSample.Syncing
 {
     public class SyncDebug
     {
-        private readonly object ctLock = new object();
+        private readonly object countLock = new object();
 
         public List<string> InitializeList(IEnumerable<string> items)
         {
             var bag = new ConcurrentBag<string>();
-            var p = Parallel.ForEach(items, async i =>
+            Parallel.ForEach(items, async i =>
             {
-                var r = await Task.Run(() => i).ConfigureAwait(false);
-                bag.Add(r);
+                var taskRun = await Task.Run(() => i).ConfigureAwait(false);
+                bag.Add(taskRun);
             });
-            while (items.Count() > bag.Count) { Thread.Sleep(1); }
-            var list = bag.ToList();
-            return list;
+            while (items.Count() > bag.Count) 
+            { 
+                Thread.Sleep(1); 
+            }
+            return bag.ToList();
         }
 
         public Dictionary<int, string> InitializeDictionary(Func<int, string> getItem)
         {
             var itemsToInitialize = Enumerable.Range(0, 100).ToList();
             var concurrentDictionary = new ConcurrentDictionary<int, string>();
-            var ct = -1;
+            var count = -1;
             var threads = Enumerable.Range(0, 3)
                 .Select(i => new Thread(() =>
                 {
-                    while (ct < (itemsToInitialize.Count - 1))
+                    while (count < (itemsToInitialize.Count - 1))
                     {
-                        lock (ctLock)
+                        lock (countLock)
                         {
-                            if (Interlocked.Increment(ref ct) < itemsToInitialize.Count)
+                            if (Interlocked.Increment(ref count) < itemsToInitialize.Count)
                                 concurrentDictionary.AddOrUpdate(itemsToInitialize[ct], getItem, (_, s) => s);
                         }
                     }
