@@ -7,9 +7,13 @@ namespace DeveloperSample.Algorithms
     {
         public static int GetFactorial(int n) {
             if (n <= 1)
+            {
                 return 1;
+            }
             else
+            {
                 return (n * GetFactorial(n - 1));
+            }
         }
 
         public static string FormatSeparators(params string[] items)
