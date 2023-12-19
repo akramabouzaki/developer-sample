@@ -28,7 +28,9 @@ namespace DeveloperSample.ClassRefactoring
             Type = swallowType;
             Load = SwallowLoad.None;
             if (swallowType == SwallowType.European)
+            {
                 airspeedVelocity = 20;
+            }
         }
 
         public void ApplyLoad(SwallowLoad load)
@@ -40,9 +42,13 @@ namespace DeveloperSample.ClassRefactoring
         private void updateAirspeedVelocity(SwallowLoad oldLoad, SwallowLoad newLoad)
         {
             if (oldLoad == SwallowLoad.None && newLoad == SwallowLoad.Coconut)
+            {
                 airspeedVelocity = airspeedVelocity - 4;
+            }
             else if (oldLoad == SwallowLoad.Coconut && newLoad == SwallowLoad.None)
+            {
                 airspeedVelocity = airspeedVelocity + 4;
+            }
         }
 
         public int GetAirspeedVelocity()
