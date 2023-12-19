@@ -5,9 +5,7 @@ const LoginForm = (props) => {
 
 	const [login, setLogin] = useState("");
 	const [password, setPassword] = useState("");
-
-
-
+	
 	const handleSubmit = (event) =>{
 		event.preventDefault();
 
