@@ -39,7 +39,9 @@ namespace DeveloperSample.Syncing
                         lock (countLock)
                         {
                             if (Interlocked.Increment(ref count) < itemsToInitialize.Count)
+                            {
                                 concurrentDictionary.AddOrUpdate(itemsToInitialize[ct], getItem, (_, s) => s);
+                            }
                         }
                     }
                 }))
